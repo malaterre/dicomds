@@ -37,7 +37,8 @@ static void encode2(double x, char *out) {
   if (std::signbit(x)) precision--;  // Or simply `if (x <= 0.0) precision--;`
   if (std::fabs(x) >= 9.99999999e99) precision--; // some refinement possible here.
 
-  int n = std::snprintf(buf, sizeof buf, "%.*e", precision, x);
+  int n = std::snprintf(buf, 16 /*sizeof buf*/, "%.*e", precision, x);
+  int n2 = strlen( buf );
   assert(n >= 0 && (unsigned int)n < sizeof buf);
   //puts(buf);
   std::strcpy(out, buf );
@@ -52,33 +53,38 @@ static void encode3(double f, char *out) {
 
 static void TestPrintOneFloat(const float f)
 {
-  float ff = -1;
+  double diff; float ff = -1;
   char out[16+1];
   encode1(f, out);
-  sscanf( out, "%f", &ff );
-  printf( "diff: %e\n", (double)(f - ff) );
+  sscanf( out, "%f", &ff ); diff = f - ff; printf( "diff: %.17g\n", diff);
   encode2(f, out);
-  sscanf( out, "%f", &ff );
-  printf( "diff: %e\n", (double)(f - ff) );
+  sscanf( out, "%f", &ff ); diff = f - ff; printf( "diff: %.17g\n", diff);
   encode3(f, out);
-  sscanf( out, "%f", &ff );
-  printf( "diff: %e\n", (double)(f - ff) );
+  sscanf( out, "%f", &ff ); diff = f - ff; printf( "diff: %.17g\n", diff);
 }
 
 static void TestPrintOneDouble(const double f)
 {
+  double diff; float ff = -1;
   char out[16+1];
   encode1(f, out);
+  sscanf( out, "%f", &ff ); diff = f - ff; printf( "diff: %.17g\n", diff);
   encode2(f, out);
+  sscanf( out, "%f", &ff ); diff = f - ff; printf( "diff: %.17g\n", diff);
   encode3(f, out);
+  sscanf( out, "%f", &ff ); diff = f - ff; printf( "diff: %.17g\n", diff);
 }
 
 static std::string PrintDouble( const double f)
 {
+  double diff; float ff = -1;
   char out[16+1];
   encode1(f, out);
+  sscanf( out, "%f", &ff ); diff = f - ff; printf( "diff: %.17g\n", diff);
   encode2(f, out);
+  sscanf( out, "%f", &ff ); diff = f - ff; printf( "diff: %.17g\n", diff);
   encode3(f, out);
+  sscanf( out, "%f", &ff ); diff = f - ff; printf( "diff: %.17g\n", diff);
   return "";
 }
 
