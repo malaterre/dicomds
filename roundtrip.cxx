@@ -136,7 +136,8 @@ int main()
 	printf("                                                    |\n");
 
   double sum;
-  for( uint_fast64_t i = 0; std::numeric_limits<uint64_t>::max(); ++i)
+  //for( uint_fast64_t i = 0; std::numeric_limits<uint64_t>::max(); ++i)
+  for( uint_fast32_t i = 0; std::numeric_limits<uint32_t>::max(); ++i)
   {
     //std::cout << i ;;
     sum += i;
