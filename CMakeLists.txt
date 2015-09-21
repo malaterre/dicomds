@@ -3,7 +3,9 @@ project(dicomds)
 
 add_executable(roundtrip roundtrip.cxx)
 add_executable(b b.c)
+target_link_libraries(b m)
 add_executable(d d.c)
+target_link_libraries(d m)
 
 enable_testing()
 
