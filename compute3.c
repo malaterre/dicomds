@@ -42,7 +42,8 @@ int main()
   for( i = 0; i < UINT32_MAX; /*++i*/ )
   {
     //printf("iteration: %" PRIuFAST32 "/%u\n", i, UINT32_MAX );
-    printf("iteration: %lf\n", ((double)i / UINT32_MAX) * 100 );
+    //printf("iteration: %lf\n", ((double)i / UINT32_MAX) * 100 );
+    fprintf(stderr,"iteration: %lf\n", ((double)i / UINT32_MAX) * 100 );
     /*
      * The log length has exceeded the limit of 4 Megabytes (this usually means
      * that test suite is raising the same exception over and over).
