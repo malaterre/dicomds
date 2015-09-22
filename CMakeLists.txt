@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.7)
-project(dicomds)
+project(dicomds C)
 
-add_executable(roundtrip roundtrip.cxx)
+#add_executable(roundtrip roundtrip.cxx)
 add_executable(b b.c)
 target_link_libraries(b m)
 add_executable(d d.c)
