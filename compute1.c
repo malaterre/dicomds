@@ -1,5 +1,6 @@
 #include <time.h>
 #include <stdint.h>
+#include <inttypes.h> // PRIuFAST32
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -138,6 +139,9 @@ static void decode(const char in[16+1], double *out) {
 
 static double delta( double ref, double cmp )
 {
+  assert( isfinite(cmp) );
+  if( ref == 0. ) return fabs(cmp - ref);
+  // else
   return fabs(cmp - ref) / ref;
 }
 
@@ -156,14 +160,25 @@ int main()
     uint32_t i;
   } u;
   uint_fast32_t i = 0;
-  for( i = 0; i < UINT32_MAX; ++i )
+  int j;
+  for( i = 0; i < UINT32_MAX; /*++i*/ )
   {
-    u.i = i;
-    if( isfinite(u.f) )
+    fprintf(stderr,"iteration: %lf\n", ((double)i / UINT32_MAX) * 100 );
+    /*
+     * The log length has exceeded the limit of 4 Megabytes (this usually means
+     * that test suite is raising the same exception over and over).
+     * The build has been terminated.
+     * - 10 000 -> not ok !
+     */
+    for( j = 0; j < 10000000; ++j, ++i )
     {
-      encode1( u.f, buf, sizeof(buf) );
-      decode( buf, &cmp );
-      sum += delta( u.f, cmp );
+      u.i = i;
+      if( isfinite(u.f) )
+      {
+        encode1( u.f, buf, sizeof(buf) );
+        decode( buf, &cmp );
+        sum += delta( u.f, cmp );
+      }
     }
   }
 #else

@@ -1,3 +1,4 @@
+
 #include <time.h>
 #include <stdint.h>
 #include <inttypes.h> // PRIuFAST32
@@ -8,7 +9,14 @@
 #include <assert.h>
 
 static void encode3(double f, char *out, int len) {
-  int n = snprintf(out, len, "%+16.8e", f ) ;
+#define N 16
+  //assert(isfinite(x)); // for now, only address finite numbers
+  int precision = N - 2 - 4;  // 1.xxxxxxxxxxe-dd
+  if (signbit(f)) precision--;
+  int n = snprintf(out, len, "%.*e", precision, f);
+  if (n >= len) {
+    n = snprintf(out, len, "%.*e", precision - (n - len) - 1, f);
+  }
   assert(n >= 0 && n < len);
 }
 
