@@ -42,7 +42,13 @@ int main()
   for( i = 0; i < UINT32_MAX; /*++i*/ )
   {
     printf("iteration: %" PRIuFAST32 "\n", i );
-    for( j = 0; j < 10000; ++j, ++i )
+    /*
+     * The log length has exceeded the limit of 4 Megabytes (this usually means
+     * that test suite is raising the same exception over and over).
+     * The build has been terminated.
+     * - 10 000 -> not ok !
+     */
+    for( j = 0; j < 100000; ++j, ++i )
     {
       u.i = i;
       if( isfinite(u.f) )
