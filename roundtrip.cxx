@@ -135,13 +135,15 @@ int main()
 	printf("                             Start adding from here ^\n");
 	printf("                                                    |\n");
 
+  union {
+    float f;
+    uint32_t u;
+  } u;
   double sum;
   //for( uint_fast64_t i = 0; std::numeric_limits<uint64_t>::max(); ++i)
-  for( uint_fast32_t i = 0; i < std::numeric_limits<uint32_t>::max(); /*++i*/)
+  for( uint_fast32_t i = 0; i < std::numeric_limits<uint32_t>::max(); ++i )
   {
-    std::cout << i << std::endl;
-    for( int j = 0; j < 10000; ++j, ++i)
-      sum += i;
+    sum += i;
   }
   std::cout << sum << std::endl;
   
