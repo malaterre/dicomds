@@ -34,14 +34,19 @@ int main()
     uint32_t i;
   } u;
   uint_fast32_t i = 0;
-  for( i = 0; i < UINT32_MAX; ++i )
+  int j;
+  for( i = 0; i < UINT32_MAX; /*++i*/ )
   {
-    u.i = i;
-    if( isfinite(u.f) )
+    printf("iteration: %d\n", j );
+    for( j = 0; j < 10000; ++j, ++i )
     {
-      encode3( u.f, buf, sizeof(buf) );
-      decode( buf, &cmp );
-      sum += delta( u.f, cmp );
+      u.i = i;
+      if( isfinite(u.f) )
+      {
+        encode3( u.f, buf, sizeof(buf) );
+        decode( buf, &cmp );
+        sum += delta( u.f, cmp );
+      }
     }
   }
 #else
