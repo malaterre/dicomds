@@ -1,5 +1,6 @@
 #include <time.h>
 #include <stdint.h>
+#include <inttypes.h> // PRIuFAST32
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -16,6 +17,9 @@ static void decode(const char in[16+1], double *out) {
 
 static double delta( double ref, double cmp )
 {
+  assert( isfinite(cmp) );
+  if( ref == 0. ) return fabs(cmp - ref);
+  // else
   return fabs(cmp - ref) / ref;
 }
 
@@ -37,7 +41,7 @@ int main()
   int j;
   for( i = 0; i < UINT32_MAX; /*++i*/ )
   {
-    printf("iteration: %d\n", i );
+    printf("iteration: %" PRIuFAST32 "\n", i );
     for( j = 0; j < 10000; ++j, ++i )
     {
       u.i = i;
