@@ -20,7 +20,7 @@ static void roundt( const double d1 )
   sscanf( buf ,"%lf", &d2 );
 
   printf( "d1: %.17g\n", d1);
-  printf( "d2: %.17g\n", d2);
+  printf( "d2: %s -> %.17g\n", buf, d2);
   const double diff = d2 - d1;
   printf( "diff: %.17g\n", diff);
 }
