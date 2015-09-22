@@ -44,7 +44,7 @@ int main()
   int j;
   for( i = 0; i < UINT32_MAX; /*++i*/ )
   {
-    fprintf(stderr,"iteration: %lf\n", ((double)i / UINT32_MAX) * 100 );
+    fprintf(stderr,"iteration: %lf with %.17g\n", ((double)i / UINT32_MAX) * 100, sum );
     /*
      * The log length has exceeded the limit of 4 Megabytes (this usually means
      * that test suite is raising the same exception over and over).

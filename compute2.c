@@ -21,7 +21,8 @@ static void encode3(double f, char *out, int len) {
 }
 
 static void decode(const char in[16+1], double *out) {
-  sscanf( in, "%lg", out );
+  int n = sscanf( in, "%lg", out );
+  assert( n == 1 );
 }
 
 static double delta( double ref, double cmp )
@@ -41,6 +42,7 @@ int main()
   double sum = 0;
   double cmp;
   char buf[16+1];
+  unsigned int nmissed = 0;
 #if 1
   union {
     float f;
@@ -50,14 +52,14 @@ int main()
   int j;
   for( i = 0; i < UINT32_MAX; /*++i*/ )
   {
-    fprintf(stderr,"iteration: %lf\n", ((double)i / UINT32_MAX) * 100 );
+    fprintf(stderr,"iteration: %lf with %.17g\n", ((double)i / UINT32_MAX) * 100, sum );
     /*
      * The log length has exceeded the limit of 4 Megabytes (this usually means
      * that test suite is raising the same exception over and over).
      * The build has been terminated.
      * - 10 000 -> not ok !
      */
-    for( j = 0; j < 10000000; ++j, ++i )
+    for( j = 0; j < 10000000 && i < UINT32_MAX; ++j, ++i )
     {
       u.i = i;
       if( isfinite(u.f) )
@@ -65,6 +67,10 @@ int main()
         encode3( u.f, buf, sizeof(buf) );
         decode( buf, &cmp );
         sum += delta( u.f, cmp );
+      }
+      else
+      {
+        nmissed++;
       }
     }
   }
@@ -86,6 +92,7 @@ int main()
   }
 #endif
   printf( "sum: %.17g\n", sum);
+  printf( "nmissed: %u\n", nmissed);
 
   end = clock();
   cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
