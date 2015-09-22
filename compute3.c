@@ -37,7 +37,7 @@ int main()
   int j;
   for( i = 0; i < UINT32_MAX; /*++i*/ )
   {
-    printf("iteration: %d\n", j );
+    printf("iteration: %d\n", i );
     for( j = 0; j < 10000; ++j, ++i )
     {
       u.i = i;
