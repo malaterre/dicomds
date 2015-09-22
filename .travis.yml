@@ -19,4 +19,4 @@ script:
   - cd build
   - cmake -G "Unix Makefiles" ..
   - make
-  - make test
+  - make ARGS=-V test
