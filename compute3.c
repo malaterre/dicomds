@@ -1,3 +1,4 @@
+#include <time.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -20,6 +21,10 @@ static double delta( double ref, double cmp )
 
 int main()
 {
+  clock_t start, end;
+  double cpu_time_used;
+  start = clock();
+
   double sum = 0;
   double cmp;
   char buf[16+1];
@@ -57,5 +62,10 @@ int main()
   }
 #endif
   printf( "sum: %.17g\n", sum);
+
+  end = clock();
+  cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+  printf("Elapsed: %f seconds\n", cpu_time_used );
+
   return 0;
 }
