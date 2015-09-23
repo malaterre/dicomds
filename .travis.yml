@@ -19,4 +19,4 @@ script:
   - cd build
   - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING=Debug ..
   - make
-  - ctest -D ExperimentalTest -V -j3
+  - make ARGS='-V -j3' test
