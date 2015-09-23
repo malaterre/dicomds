@@ -135,7 +135,7 @@ static void encode1(double f, char *buf, int size) {
 
 static void decode(const char in[16+1], double *out) {
   int n = sscanf( in, "%lg", out );
-  assert( n == 1 );
+  assert( n == 1 && in );
 }
 
 static double delta( double ref, double cmp )
