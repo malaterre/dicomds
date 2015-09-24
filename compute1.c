@@ -184,7 +184,9 @@ int main()
       {
         encode1( u.f, buf, sizeof(buf) );
         decode( buf, &cmp );
-        sum += delta( u.f, cmp );
+        const double dlt = delta( u.f, cmp );
+        assert( dlt >= 0. );
+        sum += dlt;
       }
       else
       {
