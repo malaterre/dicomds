@@ -22,7 +22,7 @@ static double delta( double ref, double cmp )
   assert( isfinite(cmp) );
   if( ref == 0. ) return fabs(cmp - ref);
   // else
-  return fabs(cmp - ref) / ref;
+  return fabs( (cmp - ref) / ref );
 }
 
 int main()

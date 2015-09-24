@@ -140,7 +140,7 @@ void encode1(double f, char *buf, int size) {
 
 static void decode(const char in[16+1], double *out) {
   int n = sscanf( in, "%lg", out );
-  assert( n == 1 && in );
+  assert( n == 1 );
 }
 
 static double delta( double ref, double cmp )
@@ -148,7 +148,7 @@ static double delta( double ref, double cmp )
   assert( isfinite(cmp) );
   if( ref == 0. ) return fabs(cmp - ref);
   // else
-  return fabs(cmp - ref) / ref;
+  return fabs( (cmp - ref) / ref );
 }
 
 int main()
@@ -184,9 +184,7 @@ int main()
       {
         encode1( u.f, buf, sizeof(buf) );
         decode( buf, &cmp );
-        const double dlt = delta( u.f, cmp );
-        assert( dlt >= 0. );
-        sum += dlt;
+        sum += delta( u.f, cmp );
       }
       else
       {

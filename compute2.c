@@ -1,4 +1,3 @@
-
 #include <time.h>
 #include <stdint.h>
 #include <inttypes.h> // PRIuFAST32
@@ -30,7 +29,7 @@ static double delta( double ref, double cmp )
   assert( isfinite(cmp) );
   if( ref == 0. ) return fabs(cmp - ref);
   // else
-  return fabs(cmp - ref) / ref;
+  return fabs( (cmp - ref) / ref );
 }
 
 int main()
