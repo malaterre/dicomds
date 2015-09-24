@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-static void clean(char *mant) {
+void clean(char *mant) {
     char *ix = mant + strlen(mant) - 1;
     while(('0' == *ix) && (ix > mant)) {
         *ix-- = '\0';
@@ -17,7 +17,7 @@ static void clean(char *mant) {
     }
 }
 
-static int add1(char *buf, int n) {
+int add1(char *buf, int n) {
     if (n < 0) return 1;
     if (buf[n] == '9') {
         buf[n] = '0';
@@ -29,16 +29,16 @@ static int add1(char *buf, int n) {
     return 0;
 }
 
-static int doround(char *buf, unsigned int n) {
+int doround(char *buf, unsigned int n) {
     char c;
-    if (n >= strlen(buf) - 1) return 0;
+    if (n >= strlen(buf)) return 0;
     c = buf[n];
     buf[n] = 0;
     if ((c >= '5') && (c <= '9')) return add1(buf, n-1);
     return 0;
 }
 
-static int myround(char *buf, unsigned int i, int iexp) {
+int roundat(char *buf, unsigned int i, int iexp) {
     if (doround(buf, i) != 0) {
         iexp += 1;
         switch(iexp) {
@@ -65,7 +65,7 @@ static int myround(char *buf, unsigned int i, int iexp) {
     return 0;
 }
 
-static void encode1(double f, char *buf, int size) {
+void encode1(double f, char *buf, int size) {
     char line[40];
     char *mant = line + 1;
     int iexp, lexp, i;
@@ -76,15 +76,20 @@ static void encode1(double f, char *buf, int size) {
         size -= 1;
         *buf++ = '-';
     }
-
     sprintf(line, "%1.16e", f);
+    if (line[0] == '-') {
+        f = -f;
+    size -= 1;
+    *buf++ = '-';
+    sprintf(line, "%1.16e", f);
+    }
     *mant = line[0];
     i = strcspn(mant, "eE");
     mant[i] = '\0';
     iexp = strtol(mant + i + 1, NULL, 10);
     lexp = sprintf(exp, "e%d", iexp);
     if ((iexp >= size) || (iexp < -3)) {
-        i = myround(mant, size - 1 -lexp, iexp);
+        i = roundat(mant, size - 1 -lexp, iexp);
         if(i == 1) {
             strcpy(buf, mant);
             return;
@@ -97,11 +102,11 @@ static void encode1(double f, char *buf, int size) {
         strcat(buf, exp);
     }
     else if (iexp >= size - 2) {
-        myround(mant, iexp + 1, iexp);
+        roundat(mant, iexp + 1, iexp);
         strcpy(buf, mant);
     }
     else if (iexp >= 0) {
-        i = myround(mant, size - 1, iexp);
+        i = roundat(mant, size - 1, iexp);
         if (i == 1) {
             strcpy(buf, mant);
             return;
@@ -114,7 +119,7 @@ static void encode1(double f, char *buf, int size) {
     }
     else {
         int j;
-        i = myround(mant, size + 1 + iexp, iexp);
+        i = roundat(mant, size + 1 + iexp, iexp);
         if (i == 1) {
             strcpy(buf, mant);
             return;
