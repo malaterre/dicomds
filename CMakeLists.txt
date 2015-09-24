@@ -23,6 +23,6 @@ enable_testing()
 
 #add_test(NAME rt COMMAND roundtrip)
 #add_test(NAME compute1 COMMAND compute1)
-add_test(NAME compute2 COMMAND compute2)
-#add_test(NAME compute3 COMMAND compute3)
+#add_test(NAME compute2 COMMAND compute2)
+add_test(NAME compute3 COMMAND compute3)
 #add_test(NAME compute4 COMMAND compute4)
