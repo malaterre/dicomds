@@ -8,7 +8,7 @@ compiler:
   - gcc
 matrix:
   env:
-    - CFLAGS="-g -O2 -Wall -Werror" 
+    - CFLAGS="-g -O2 -Wsign-compare -Wall -Werror" 
   exclude:
     - os: osx
     - compiler: gcc
