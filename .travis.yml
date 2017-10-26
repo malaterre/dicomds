@@ -17,6 +17,7 @@ before_install:
 script:
   - mkdir build
   - cd build
+  - CFLAGS="-g -O2 -Wall -Werror" 
   - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING=Debug ..
   - make
   - make ARGS='-V -j3' test
